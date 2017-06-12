@@ -1,3 +1,22 @@
 page-home {
 
+    ion-item-sliding {
+        margin-bottom: 5px;
+    }
+
+    [ion-item] {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #282828;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    [ion-item] span {
+        display: block;
+        color: #cecece;
+        font-weight: 400;
+        margin-top: 10px;
+    }
+
 }

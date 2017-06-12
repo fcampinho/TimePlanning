@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Work Item: {{workitem.title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addItem()">
+        <ion-icon name="add-circle">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-card *ngFor="let task of workitem.tasks" (click)="presentActionSheet(task)">
+    <ion-card-header>
+      <h1>{{task.title}}</h1>
+    </ion-card-header>
+    <ion-card-content >
+      <h2>{{task.detail}}</h2>
+      <h3>{{task.completed ? "Done" : "Undone" }}</h3>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear (click)="viewSchedules($event, task)">
+              <ion-icon name="calendar"></ion-icon>
+              <div>{{task.schedules.length}} schedules</div>
+            </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear (click)="viewTimeTrackers($event, task)">
+              <ion-icon name="clock"></ion-icon>
+              <div>{{task.timeTrackers.length}} Time Trackers</div>
+            </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

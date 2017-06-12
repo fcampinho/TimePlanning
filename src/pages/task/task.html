@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Task: {{title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="close()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-header>
+      TASK
+    </ion-card-header>
+    <ion-card-content>
+      Insert or update a task!
+    </ion-card-content>
+
+    <ion-list no-lines>
+      <form [formGroup]="taskForm" (ngSubmit)="saveForm()">
+        <ion-item>
+          <ion-label>Title</ion-label>
+          <ion-input formControlName="title" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Detail</ion-label>
+          <ion-textarea formControlName="detail" type="text"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>Completed</ion-label>
+          <ion-checkbox formControlName="completed"></ion-checkbox>
+        </ion-item>
+        <div text-center padding>
+          <button ion-button center type="submit" [disabled]="!taskForm.valid">Submit</button>
+        </div>
+      </form>
+    </ion-list>
+  </ion-card>
+
+</ion-content>

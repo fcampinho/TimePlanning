@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Schedules</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addItem()">
+        <ion-icon name="add-circle">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h1>Task: {{task.title}}</h1>
+  <ion-card *ngFor="let schedule of task.schedules" (click)="presentActionSheet(schedule)">
+    <ion-card-header>
+      {{ schedule.start | date:'mediumDate' }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          {{ schedule.start | date:'shortTime' }}
+        </ion-col>
+        <ion-col>
+          {{ schedule.end | date:'shortTime' }}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

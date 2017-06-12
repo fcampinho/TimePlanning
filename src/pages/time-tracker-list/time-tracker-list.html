@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>TimeTrackers Task: {{task.title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addItem()">
+        <ion-icon name="add-circle">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h1>Task: {{task.title}}</h1>
+  <ion-card *ngFor="let timeTracker of task.timeTrackers" (click)="presentActionSheet(timeTracker)">
+    <ion-card-header>
+      {{ timeTracker.start | date:'mediumDate' }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          {{ timeTracker.start | date:'shortTime' }}
+        </ion-col>
+        <ion-col>
+          {{ timeTracker.end | date:'shortTime' }}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          {{ timeTracker.detail }}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

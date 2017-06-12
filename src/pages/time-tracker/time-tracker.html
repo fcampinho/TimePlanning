@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>TimeTracker</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="close()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <h1>Task: {{task.title}}</h1>
+  <ion-card>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label>Date: </ion-label>
+        <ion-datetime [(ngModel)]="startDate" [min]="min" [max]="max" displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY"></ion-datetime>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Start:</ion-label>
+            <ion-datetime [(ngModel)]="startTime" displayFormat="HH:mm"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>End:</ion-label>
+            <ion-datetime [(ngModel)]="end" displayFormat="HH:mm"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Detail:</ion-label>
+            <ion-textarea [(ngModel)]="detail"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+    <div text-center padding>
+      <button ion-button center (click)="saveForm()">Submit</button>
+    </div>
+  </ion-card>
+</ion-content>
