@@ -10,39 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, Platform, Keyboard } from 'ionic-angular';
 import { WorkItemModel } from '../../models/workitem-model';
-import { DataProvider } from "../../providers/data/data";
 import { UUID } from 'angular2-uuid';
 var HomePage = (function () {
-    function HomePage(navCtrl, dataService, alertCtrl, platform, keyboard) {
+    function HomePage(navCtrl, alertCtrl, platform, keyboard) {
         this.navCtrl = navCtrl;
-        this.dataService = dataService;
         this.alertCtrl = alertCtrl;
         this.platform = platform;
         this.keyboard = keyboard;
         this.workitems = [];
     }
-    HomePage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        this.platform.ready().then(function () {
-            _this.dataService.getData().then(function (workitems) {
-                var savedWorkItems = false;
-                if (typeof (workitems) !== 'undefined') {
-                    savedWorkItems = JSON.parse(workitems);
-                }
-                if (savedWorkItems) {
-                    for (var i = 0; i < savedWorkItems.length; i++) {
-                        var workItem = new WorkItemModel(UUID.UUID(), savedWorkItems[i].title, savedWorkItems[i].tasks);
-                        _this.workitems = _this.workitems.concat([workItem]);
-                        workItem.updates().subscribe(function (update) {
-                            _this.save();
-                        });
-                    }
-                }
-            });
-        });
-    };
     HomePage.prototype.addWorkItem = function () {
-        //let self = this;
         var _this = this;
         var prompt = this.alertCtrl.create({
             title: 'Add Work Item!',
@@ -61,10 +38,6 @@ var HomePage = (function () {
                     handler: function (data) {
                         var workitem = new WorkItemModel(UUID.UUID(), data.name, []);
                         _this.workitems.push(workitem);
-                        workitem.updates().subscribe(function (update) {
-                            _this.save();
-                        });
-                        _this.save();
                     }
                 }
             ]
@@ -114,8 +87,8 @@ var HomePage = (function () {
                     handler: function (data) {
                         var index = _this.workitems.indexOf(workitem);
                         if (index > -1) {
-                            _this.workitems.splice(index, 1);
-                            _this.save();
+                            var newWorkItems = _this.workitems;
+                            _this.workitems = newWorkItems.slice(0, index).concat(newWorkItems.slice(index + 1, newWorkItems.length));
                         }
                     }
                 }
@@ -124,11 +97,7 @@ var HomePage = (function () {
         prompt.present();
     };
     HomePage.prototype.viewWorkItem = function (workitem) {
-        this.navCtrl.push('TasksPage', { workitem: workitem });
-    };
-    HomePage.prototype.save = function () {
-        this.keyboard.close();
-        this.dataService.save(this.workitems);
+        this.navCtrl.push('TaskListPage', { workitem: workitem });
     };
     return HomePage;
 }());
@@ -138,7 +107,7 @@ HomePage = __decorate([
         selector: 'page-home',
         templateUrl: 'home.html'
     }),
-    __metadata("design:paramtypes", [NavController, DataProvider,
+    __metadata("design:paramtypes", [NavController,
         AlertController, Platform, Keyboard])
 ], HomePage);
 export { HomePage };

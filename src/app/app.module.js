@@ -11,8 +11,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
-import { DataProvider } from '../providers/data/data';
-import { TfsProvider } from '../providers/tfs/tfs';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -31,9 +29,7 @@ AppModule = __decorate([
         providers: [
             StatusBar,
             SplashScreen,
-            { provide: ErrorHandler, useClass: IonicErrorHandler },
-            DataProvider,
-            TfsProvider
+            { provide: ErrorHandler, useClass: IonicErrorHandler }
         ]
     })
 ], AppModule);

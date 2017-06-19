@@ -31,8 +31,6 @@ export interface Task {
 
     addTimeTracker(timetracker: TimeTracker);
     removeTimeTracker(timetracker: TimeTracker);
-
-    done(completed: boolean);
 }
 
 export interface WorkItem {

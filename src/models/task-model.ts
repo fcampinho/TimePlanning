@@ -30,8 +30,4 @@ export class TaskModel implements Task {
             ...this.timeTrackers.splice(index + 1, this.timeTrackers.length)];
         }
     }
-
-    done(completed: boolean) {
-        this.completed = completed;
-    }
 }

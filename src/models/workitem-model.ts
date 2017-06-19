@@ -1,7 +1,6 @@
-﻿import { Task } from '../commons/types';
-import { TaskModel } from './task-model';
+﻿import { WorkItem, Task } from '../commons/types';
 
-export class WorkItemModel {
+export class WorkItemModel implements WorkItem {
     public tasks: Task[] = [];
 
     constructor(public id: string, public title: string, tasks: Task[]) { }
@@ -10,7 +9,7 @@ export class WorkItemModel {
         this.title = title;
     }
 
-    addTask(task: TaskModel): void {
+    addTask(task: Task): void {
         this.tasks = [...this.tasks, task];
     }
 
