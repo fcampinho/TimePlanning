@@ -1,9 +1,9 @@
 ﻿import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, Platform, Keyboard } from 'ionic-angular';
+import { UUID } from 'angular2-uuid';
 
 import { WorkItem } from '../../commons/types';
 import { WorkItemModel } from '../../models/workitem-model';
-import { UUID } from 'angular2-uuid';
 
 @IonicPage()
 @Component({
