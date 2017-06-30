@@ -23,13 +23,13 @@
       <ion-col>
         <button ion-button icon-left clear (click)="viewSchedules($event, task)">
               <ion-icon name="calendar"></ion-icon>
-              <div>{{task.schedules.length}} schedules</div>
+              <div><ion-badge>{{task.schedules.length}}</ion-badge> schedules</div>
             </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-left clear (click)="viewTimeTrackers($event, task)">
               <ion-icon name="clock"></ion-icon>
-              <div>{{task.timeTrackers.length}} Time Trackers</div>
+              <div><ion-badge>{{task.timeTrackers.length}}</ion-badge> Time Trackers</div>
             </button>
       </ion-col>
     </ion-row>

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, Platform, NavController, NavParams, AlertController, ActionSheetController, ModalController } from 'ionic-angular';
 
-
 import { WorkItem, Task } from '../../commons/types';
-//import { TaskModel } from '../../models/task-model';
 
 @IonicPage()
 @Component({
@@ -18,7 +16,6 @@ export class TaskListPage {
     public actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController) {
 
     this.workitem = this.navParams.get('workitem');
-
   }
 
   addItem(): void {

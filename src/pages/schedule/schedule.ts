@@ -13,9 +13,9 @@ import { ScheduleModel } from '../../models/schedule-model';
   templateUrl: 'schedule.html',
 })
 export class SchedulePage {
-  startDate;
-  startTime;
-  end;
+  startDate: string;
+  startTime: string;
+  end: string;
 
   task: Task;
   schedule: Schedule;
@@ -37,8 +37,8 @@ export class SchedulePage {
       this.end = moment().add(1, 'h').format();
     }
 
-    this.min = moment().add(-2, 'y').toISOString();
-    this.max = moment().add(2, 'y').toISOString();
+    this.min = moment().add(-2, 'y').format('Y');
+    this.max = moment().add(2, 'y').format('Y');
   }
 
   saveForm() {

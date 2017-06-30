@@ -12,7 +12,7 @@ import { TimeTrackerModel } from '../../models/timetracker-model';
   templateUrl: 'time-tracker.html',
 })
 export class TimeTrackerPage {
-  startDate;
+  startDate: string;
   startTime;
   end;
   detail: string;
@@ -38,8 +38,8 @@ export class TimeTrackerPage {
       this.detail = '';
     }
 
-    this.min = moment().add(-2, 'y').toISOString();
-    this.max = moment().add(2, 'y').toISOString();
+    this.min = moment().add(-2, 'y').format('Y');
+    this.max = moment().add(2, 'y').format('Y');
   }
 
   saveForm() {
