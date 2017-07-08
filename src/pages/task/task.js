@@ -34,10 +34,10 @@ var TaskPage = (function () {
             var task = new TaskModel(UUID.UUID(), this.taskForm.value.title, this.taskForm.value.detail, [], [], this.taskForm.value.completed);
             this.workitem.addTask(task);
         }
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(true);
     };
     TaskPage.prototype.close = function () {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(false);
     };
     return TaskPage;
 }());

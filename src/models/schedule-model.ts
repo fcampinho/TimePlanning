@@ -1,7 +1,7 @@
 ﻿import { Schedule } from '../commons/types';
 
 export class ScheduleModel implements Schedule {
-    constructor(public id: string, public start: Date, public end: Date) { }
+    constructor(public _id: string, public start: Date, public end: Date) { }
 
     updatePeriod(start: Date, end: Date) {
         this.start = start;

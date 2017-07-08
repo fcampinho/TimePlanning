@@ -3,19 +3,25 @@ import { IonicPage, Platform, NavController, NavParams, AlertController, ActionS
 
 import { WorkItem, Task } from '../../commons/types';
 
+import { Store } from '@ngrx/store';
+import { AppState } from '../../commons/types';
+import { WorkItemActions } from '../../actions/workitem.actions';
+
 @IonicPage()
 @Component({
   selector: 'page-task-list',
   templateUrl: 'task-list.html',
 })
 export class TaskListPage {
-  workitem: WorkItem;
+  workItem: WorkItem;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public platform: Platform, public alertCtrl: AlertController,
-    public actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController) {
+    public actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController,
+    private store: Store<AppState>, private workItemActions: WorkItemActions) {
 
-    this.workitem = this.navParams.get('workitem');
+    this.workItem = this.navParams.get('workItem');
+    console.log(this.workItem);
   }
 
   addItem(): void {
@@ -33,7 +39,8 @@ export class TaskListPage {
         {
           text: 'Remove',
           handler: data => {
-            this.workitem.removeTask(task);
+            this.workItem.removeTask(task);
+            this.store.dispatch(this.workItemActions.updateWorkItem(this.workItem));
           }
         }
       ]
@@ -70,20 +77,24 @@ export class TaskListPage {
 
     actionSheet.present();
   }
+  
   presentModal(task: Task) {
-    let modal = this.modalCtrl.create('TaskPage', { workitem: this.workitem, task });
+    let modal = this.modalCtrl.create('TaskPage', { workitem: this.workItem, task });
     modal.present();
+    modal.onDidDismiss(update => {
+      if (update) this.store.dispatch(this.workItemActions.updateWorkItem(this.workItem));
+    });
   }
 
   viewSchedules(e, task: Task): void {
     e.preventDefault();
     e.stopPropagation(); //stops Actionsheet propagation
-    this.navCtrl.push('ScheduleListPage', { task });
+    this.navCtrl.push('ScheduleListPage', { workItem: this.workItem, task });
   }
 
   viewTimeTrackers(e, task: Task): void {
     e.preventDefault();
     e.stopPropagation(); //stops Actionsheet propagation
-    this.navCtrl.push('TimeTrackerListPage', { task });
+    this.navCtrl.push('TimeTrackerListPage', { workItem: this.workItem, task });
   }
 }

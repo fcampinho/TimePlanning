@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Work Item: {{workitem.title}}</ion-title>
+    <ion-title>Work Item: {{workItem.title}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()">
         <ion-icon name="add-circle">
@@ -10,7 +10,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-card *ngFor="let task of workitem.tasks" (click)="presentActionSheet(task)">
+  <ion-card *ngFor="let task of workItem.tasks" (click)="presentActionSheet(task)">
     <ion-card-header>
       <h1>{{task.title}}</h1>
     </ion-card-header>

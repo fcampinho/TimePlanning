@@ -10,15 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, Platform, Keyboard } from 'ionic-angular';
 import { WorkItemModel } from '../../models/workitem-model';
-import { UUID } from 'angular2-uuid';
+import { DataProvider } from '../../providers/data/data';
+import 'rxjs/add/operator/concat';
+import { Store } from '@ngrx/store';
+import { WorkItemActions } from '../../actions/workitem.actions';
 var HomePage = (function () {
-    function HomePage(navCtrl, alertCtrl, platform, keyboard) {
+    function HomePage(navCtrl, alertCtrl, platform, keyboard, service, store, workItemActions) {
         this.navCtrl = navCtrl;
         this.alertCtrl = alertCtrl;
         this.platform = platform;
         this.keyboard = keyboard;
-        this.workitems = [];
+        this.service = service;
+        this.store = store;
+        this.workItemActions = workItemActions;
     }
+    HomePage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        this.platform.ready().then(function () {
+            _this.workitems = _this.store.select(function (state) { return state.workItems; });
+        });
+    };
     HomePage.prototype.addWorkItem = function () {
         var _this = this;
         var prompt = this.alertCtrl.create({
@@ -36,8 +47,8 @@ var HomePage = (function () {
                 {
                     text: 'Save',
                     handler: function (data) {
-                        var workitem = new WorkItemModel(UUID.UUID(), data.name, []);
-                        _this.workitems.push(workitem);
+                        var workitem = new WorkItemModel('', '', data.name, []);
+                        _this.store.dispatch(_this.workItemActions.addWorkItem(workitem));
                     }
                 }
             ]
@@ -61,10 +72,8 @@ var HomePage = (function () {
                 {
                     text: 'Save',
                     handler: function (data) {
-                        var index = _this.workitems.indexOf(workitem);
-                        if (index > -1) {
-                            _this.workitems[index].update(data.name);
-                        }
+                        workitem.update(data.name);
+                        _this.store.dispatch(_this.workItemActions.updateWorkItem(workitem));
                         slidingItem.close();
                     }
                 }
@@ -85,19 +94,15 @@ var HomePage = (function () {
                 {
                     text: 'Remove',
                     handler: function (data) {
-                        var index = _this.workitems.indexOf(workitem);
-                        if (index > -1) {
-                            var newWorkItems = _this.workitems;
-                            _this.workitems = newWorkItems.slice(0, index).concat(newWorkItems.slice(index + 1, newWorkItems.length));
-                        }
+                        _this.store.dispatch(_this.workItemActions.deleteWorkItem(workitem));
                     }
                 }
             ]
         });
         prompt.present();
     };
-    HomePage.prototype.viewWorkItem = function (workitem) {
-        this.navCtrl.push('TaskListPage', { workitem: workitem });
+    HomePage.prototype.viewWorkItem = function (workItem) {
+        this.navCtrl.push('TaskListPage', { workItem: workItem });
     };
     return HomePage;
 }());
@@ -108,7 +113,8 @@ HomePage = __decorate([
         templateUrl: 'home.html'
     }),
     __metadata("design:paramtypes", [NavController,
-        AlertController, Platform, Keyboard])
+        AlertController, Platform, Keyboard,
+        DataProvider, Store, WorkItemActions])
 ], HomePage);
 export { HomePage };
 //# sourceMappingURL=home.js.map

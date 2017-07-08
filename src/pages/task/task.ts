@@ -18,6 +18,7 @@ export class TaskPage {
   taskForm: FormGroup;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, public formBuilder: FormBuilder) {
+
     this.task = this.navParams.get('task');
     this.workitem = this.navParams.get('workitem');
 
@@ -26,7 +27,7 @@ export class TaskPage {
     this.taskForm = formBuilder.group({
       title: [this.task ? this.task.title : '', Validators.required],
       detail: [this.task ? this.task.detail : ''],
-      completed: [this.task ?  this.task.completed : false]
+      completed: [this.task ? this.task.completed : false]
     });
   }
 
@@ -38,11 +39,11 @@ export class TaskPage {
       let task = new TaskModel(UUID.UUID(), this.taskForm.value.title, this.taskForm.value.detail, [], [], this.taskForm.value.completed);
       this.workitem.addTask(task);
     }
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(true);
   }
 
   close() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(false);
   }
 
 }

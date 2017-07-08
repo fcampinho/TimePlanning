@@ -1,6 +1,6 @@
 var ScheduleModel = (function () {
-    function ScheduleModel(id, start, end) {
-        this.id = id;
+    function ScheduleModel(_id, start, end) {
+        this._id = _id;
         this.start = start;
         this.end = end;
     }

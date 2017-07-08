@@ -9,15 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { IonicPage, Platform, NavController, NavParams, AlertController, ActionSheetController, ModalController } from 'ionic-angular';
+import { Store } from '@ngrx/store';
+import { WorkItemActions } from '../../actions/workitem.actions';
 var TimeTrackerListPage = (function () {
-    function TimeTrackerListPage(navCtrl, navParams, platform, alertCtrl, actionSheetCtrl, modalCtrl) {
+    function TimeTrackerListPage(navCtrl, navParams, platform, alertCtrl, actionSheetCtrl, modalCtrl, store, workItemActions) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.platform = platform;
         this.alertCtrl = alertCtrl;
         this.actionSheetCtrl = actionSheetCtrl;
         this.modalCtrl = modalCtrl;
+        this.store = store;
+        this.workItemActions = workItemActions;
         this.task = this.navParams.get('task');
+        this.workItem = this.navParams.get('workItem');
     }
     TimeTrackerListPage.prototype.addItem = function () {
         this.presentModal(null);
@@ -35,6 +40,7 @@ var TimeTrackerListPage = (function () {
                     text: 'Remove',
                     handler: function (data) {
                         _this.task.removeTimeTracker(timeTracker);
+                        _this.store.dispatch(_this.workItemActions.updateWorkItem(_this.workItem));
                     }
                 }
             ]
@@ -70,8 +76,13 @@ var TimeTrackerListPage = (function () {
         actionSheet.present();
     };
     TimeTrackerListPage.prototype.presentModal = function (timeTracker) {
+        var _this = this;
         var modal = this.modalCtrl.create('TimeTrackerPage', { task: this.task, timeTracker: timeTracker });
         modal.present();
+        modal.onDidDismiss(function (update) {
+            if (update)
+                _this.store.dispatch(_this.workItemActions.updateWorkItem(_this.workItem));
+        });
     };
     return TimeTrackerListPage;
 }());
@@ -83,7 +94,8 @@ TimeTrackerListPage = __decorate([
     }),
     __metadata("design:paramtypes", [NavController, NavParams,
         Platform, AlertController,
-        ActionSheetController, ModalController])
+        ActionSheetController, ModalController,
+        Store, WorkItemActions])
 ], TimeTrackerListPage);
 export { TimeTrackerListPage };
 //# sourceMappingURL=time-tracker-list.js.map

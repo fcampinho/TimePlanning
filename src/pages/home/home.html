@@ -12,7 +12,7 @@
 </ion-header>
 <ion-content padding>
   <ion-list no-lines>
-    <ion-item-sliding #slidingItem *ngFor="let workitem of workitems">
+    <ion-item-sliding #slidingItem *ngFor="let workitem of workitems | async">
       <button ion-item (click)="viewWorkItem(workitem)">
         {{workitem.title}}<span text-right> <ion-badge>{{workitem.tasks.length}}</ion-badge> items</span>
       </button>

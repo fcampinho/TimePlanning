@@ -30,8 +30,8 @@ var TimeTrackerPage = (function () {
             this.end = moment().add(1, 'h').format();
             this.detail = '';
         }
-        this.min = moment().add(-2, 'y').toISOString();
-        this.max = moment().add(2, 'y').toISOString();
+        this.min = moment().add(-2, 'y').format('Y');
+        this.max = moment().add(2, 'y').format('Y');
     }
     TimeTrackerPage.prototype.saveForm = function () {
         var start = moment(this.startDate);
@@ -47,10 +47,10 @@ var TimeTrackerPage = (function () {
             var timeTracker = new TimeTrackerModel(UUID.UUID(), start.toDate(), end.toDate(), this.detail);
             this.task.addTimeTracker(timeTracker);
         }
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(true);
     };
     TimeTrackerPage.prototype.close = function () {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(false);
     };
     return TimeTrackerPage;
 }());

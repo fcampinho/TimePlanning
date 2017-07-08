@@ -6,18 +6,18 @@
 }
 
 export interface TimeTracker extends Period {
-    id: string;
+    _id: string;
     detail: string;
 
     update(detail: string)
 }
 
 export interface Schedule extends Period {
-    id: string;
+    _id: string;
 }
 
 export interface Task {
-    id: string;
+    _id: string;
     title: string;
     detail: string;
     schedules: Schedule[];
@@ -34,7 +34,8 @@ export interface Task {
 }
 
 export interface WorkItem {
-    id: string;
+    _id: string;
+    _rev: string;
     title: string;
     tasks: Task[];
 
@@ -42,4 +43,8 @@ export interface WorkItem {
 
     addTask(task: Task);
     removeTask(task: Task);
+}
+
+export interface AppState {  
+    workItems: WorkItem[];
 }

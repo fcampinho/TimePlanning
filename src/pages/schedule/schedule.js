@@ -28,8 +28,8 @@ var SchedulePage = (function () {
             this.startTime = moment().format();
             this.end = moment().add(1, 'h').format();
         }
-        this.min = moment().add(-2, 'y').toISOString();
-        this.max = moment().add(2, 'y').toISOString();
+        this.min = moment().add(-2, 'y').format('Y');
+        this.max = moment().add(2, 'y').format('Y');
     }
     SchedulePage.prototype.saveForm = function () {
         var start = moment(this.startDate);
@@ -44,10 +44,10 @@ var SchedulePage = (function () {
             var schedule = new ScheduleModel(UUID.UUID(), start.toDate(), end.toDate());
             this.task.addSchedule(schedule);
         }
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(true);
     };
     SchedulePage.prototype.close = function () {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(false);
     };
     return SchedulePage;
 }());

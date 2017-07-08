@@ -1,6 +1,6 @@
 var TimeTrackerModel = (function () {
-    function TimeTrackerModel(id, start, end, detail) {
-        this.id = id;
+    function TimeTrackerModel(_id, start, end, detail) {
+        this._id = _id;
         this.start = start;
         this.end = end;
         this.detail = detail;

@@ -58,10 +58,10 @@ export class TimeTrackerPage {
       let timeTracker = new TimeTrackerModel(UUID.UUID(), start.toDate(), end.toDate(), this.detail);
       this.task.addTimeTracker(timeTracker);
     }
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(true);
   }
 
   close() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(false);
   }
 }

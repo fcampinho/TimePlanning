@@ -56,10 +56,10 @@ export class SchedulePage {
       let schedule = new ScheduleModel(UUID.UUID(), start.toDate(), end.toDate());
       this.task.addSchedule(schedule);
     }
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(true);
   }
 
   close() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(false);
   }
 }

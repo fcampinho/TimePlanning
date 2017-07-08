@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, Platform, NavController, NavParams, AlertController, ActionSheetController, ModalController } from 'ionic-angular';
 
-import { Task, Schedule } from '../../commons/types';
+import { WorkItem, Task, Schedule } from '../../commons/types';
+
+import { Store } from '@ngrx/store';
+import { AppState } from '../../commons/types';
+import { WorkItemActions } from '../../actions/workitem.actions';
 
 @IonicPage()
 @Component({
@@ -10,12 +14,15 @@ import { Task, Schedule } from '../../commons/types';
 })
 export class ScheduleListPage {
   task: Task;
+  workItem: WorkItem;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public platform: Platform, public alertCtrl: AlertController,
-    public actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController) {
+    public actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController,
+    private store: Store<AppState>, private workItemActions: WorkItemActions) {
 
     this.task = this.navParams.get('task');
+    this.workItem = this.navParams.get('workItem');
   }
 
   addItem(): void {
@@ -34,6 +41,7 @@ export class ScheduleListPage {
           text: 'Remove',
           handler: data => {
             this.task.removeSchedule(schedule);
+            this.store.dispatch(this.workItemActions.updateWorkItem(this.workItem));
           }
         }
       ]
@@ -74,5 +82,8 @@ export class ScheduleListPage {
   presentModal(schedule: Schedule) {
     let modal = this.modalCtrl.create('SchedulePage', { task: this.task, schedule });
     modal.present();
+    modal.onDidDismiss(update => {
+      if (update) this.store.dispatch(this.workItemActions.updateWorkItem(this.workItem));
+    });
   }
 }

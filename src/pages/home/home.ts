@@ -1,9 +1,18 @@
 ﻿import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, Platform, Keyboard } from 'ionic-angular';
-import { UUID } from 'angular2-uuid';
+//import { UUID } from 'angular2-uuid';
 
 import { WorkItem } from '../../commons/types';
 import { WorkItemModel } from '../../models/workitem-model';
+
+import { DataProvider } from '../../providers/data/data';
+
+import 'rxjs/add/operator/concat';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AppState } from '../../commons/types';
+import { WorkItemActions } from '../../actions/workitem.actions';
 
 @IonicPage()
 @Component({
@@ -11,10 +20,20 @@ import { WorkItemModel } from '../../models/workitem-model';
     templateUrl: 'home.html'
 })
 export class HomePage {
-    public workitems: WorkItem[] = [];
+    public workitems: Observable<WorkItem[]>;
 
-    constructor(public navCtrl: NavController, 
-        public alertCtrl: AlertController, public platform: Platform, private keyboard: Keyboard) { }
+    constructor(public navCtrl: NavController,
+        public alertCtrl: AlertController, public platform: Platform, private keyboard: Keyboard,
+        public service: DataProvider, private store: Store<AppState>, private workItemActions: WorkItemActions) {
+
+
+    }
+
+    ionViewDidLoad() {
+        this.platform.ready().then(() => {
+            this.workitems = this.store.select(state => state.workItems);
+        });
+    }
 
     addWorkItem(): void {
         let prompt = this.alertCtrl.create({
@@ -32,8 +51,8 @@ export class HomePage {
                 {
                     text: 'Save',
                     handler: data => {
-                        let workitem = new WorkItemModel(UUID.UUID(), data.name, []);
-                        this.workitems.push(workitem);
+                        let workitem = new WorkItemModel('', '', data.name, []);
+                        this.store.dispatch(this.workItemActions.addWorkItem(workitem));
                     }
                 }
             ]
@@ -58,10 +77,8 @@ export class HomePage {
                 {
                     text: 'Save',
                     handler: data => {
-                        let index = this.workitems.indexOf(workitem);
-                        if (index > -1) {
-                            this.workitems[index].update(data.name);
-                        }
+                        workitem.update(data.name);
+                        this.store.dispatch(this.workItemActions.updateWorkItem(workitem));
 
                         slidingItem.close();
                     }
@@ -84,11 +101,7 @@ export class HomePage {
                 {
                     text: 'Remove',
                     handler: data => {
-                        let index = this.workitems.indexOf(workitem);
-                        if (index > -1) {
-                            let newWorkItems = this.workitems;
-                            this.workitems = [...newWorkItems.slice(0, index), ...newWorkItems.slice(index + 1, newWorkItems.length)];
-                        }
+                        this.store.dispatch(this.workItemActions.deleteWorkItem(workitem));
                     }
                 }
             ]
@@ -97,7 +110,7 @@ export class HomePage {
         prompt.present();
     }
 
-    viewWorkItem(workitem: WorkItem): void {
-        this.navCtrl.push('TaskListPage', { workitem: workitem });
+    viewWorkItem(workItem: WorkItem): void {
+        this.navCtrl.push('TaskListPage', { workItem });
     }
 }

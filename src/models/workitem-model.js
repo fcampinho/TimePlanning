@@ -1,8 +1,14 @@
+import { TaskModel } from './task-model';
 var WorkItemModel = (function () {
-    function WorkItemModel(id, title, tasks) {
-        this.id = id;
+    function WorkItemModel(_id, _rev, title, tasks) {
+        this._id = _id;
+        this._rev = _rev;
         this.title = title;
         this.tasks = [];
+        for (var i = 0; i < tasks.length; i++) {
+            var task = new TaskModel(tasks[i]._id, tasks[i].title, tasks[i].detail, tasks[i].schedules, tasks[i].timeTrackers, tasks[i].completed);
+            this.tasks = this.tasks.concat([task]);
+        }
     }
     WorkItemModel.prototype.update = function (title) {
         this.title = title;
